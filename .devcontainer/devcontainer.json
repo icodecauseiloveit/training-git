@@ -1,0 +1,39 @@
+{
+    "name": "DEV-ENV",
+    "dockerFile": "Dockerfile",
+    "appPort": [3000],
+    //With runArgs we can specify the 'docker run' commands
+    "runArgs": [
+        "--name", "gbp-env",
+        "--user", "node",
+        "--env-file",".devcontainer/devcontainer.env"
+    ],
+    "settings": {
+        "workbench.colorTheme": "Cobalt2",
+        "files.autoSave": "afterDelay",
+		"terminal.integrated.defaultProfile.linux": "zsh", 
+        "terminal.integrated.profiles.linux":{
+            "bash": {
+                "path": "/bin/sh",
+                "icon": "terminal-bash"
+            },
+            "zsh": {
+                "path": "/bin/zsh"
+            }
+        }
+    },
+    "onCreateCommand": "cp -f ./.devcontainer/config/.zshrc ~/ && cp -f ./.devcontainer/config/.gitconfig ~/ && cp -f ./.devcontainer/config/.zsh_history /home/node/ && cp -f ./.devcontainer/config/init.vim ~/.config/nvim/ && cd ~/.config/nvim && nvim +'PlugInstall --sync' +qa",
+    "postStartCommand": "cd /app/*-PROJ && npm init -y && npm i express", 
+    "extensions": [
+		"esbenp.prettier-vscode",            // Formateo de documentos
+		"wesbos.theme-cobalt2",              // Theme
+		"rvest.vs-code-prettier-eslint",     // Formateo de documentos con ES-Lint
+        "mikestead.dotenv",                  // Soporte a archivos .env          
+        "ritwickdey.LiveServer",             // Refresca los cambios en HTML y CSS en tiempo real
+        "christian-kohler.path-intellisense",// Autocompletar rutas
+        "anseki.vscode-color"                // Muestra el color del HEXA de CSS
+	],
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/app,type=bind"
+    ]
+}
